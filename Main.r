@@ -10,9 +10,9 @@ library(modelsummary)
 source("Preprocessing.r")
 
 ############### 
-### ChiSquared Tests
+### ChiSquared tests / t-tests
 
-#Creating a combined table of literature Data and our own
+#Creating a table combining literature data with our own original dataset
 HIs<-sumtab$HI
 Clade<- sumtab$Clade
 TreeName<-sumtab$Treename
@@ -44,7 +44,7 @@ compiledData$Genus <- as.factor(compiledData$Genus)
 
 
 
-# Chisquared and t-tests
+# Chisquared and t-tests on species level
 newworld <-subset(compiledData, compiledData$Clade == "Platyrrhini")
 oldworld <-subset(compiledData, compiledData$Clade == "Cercopithecoidea")
 homi <-subset(compiledData, compiledData$Clade == "Hominoidea")
@@ -101,7 +101,7 @@ for (i in 1:length(levels(compiledData$TreeName))) {
 
 }
 chiresults <- data.frame(names,pval, ttestpval, clade, HImean, HIabs)
-
+chiresults
 
 hist(pval)
 
@@ -113,7 +113,7 @@ ks.test(ttestpval,"punif",0,1)
 
 
 
-#Chisquared tests on genus level
+# Chisquared and t-tests on genus level
 pval <- vector()
 ttestpval <- vector()
 names <- vector()
@@ -164,34 +164,29 @@ for (i in 1:length(levels(compiledData$Genus))) {
   
 }
 chiresults.genus <- data.frame(names,pval, ttestpval, clade, HImean, HIabs)
-
+chiresults.genus
 
 
 
 
 
 ############
-#Phylogenetic signal
+##Phylogenetic signal
+
+#Check phylogenetic signal of lateralization direction
 HIlist <- predictor.dir$HI
 names(HIlist) <- rownames(predictor.dir)
 phylosig(arbol.dir, HIlist, method = "lambda", test = TRUE)
 
 
+#Check phylogenetic signal of lateralization strength
 HIabslist <- predictor$HIabs
 names(HIabslist) <- rownames(predictor)
 
 phylosig(arbol, HIabslist, method = "lambda", test = TRUE)
 
-
-
-
-
 #################
 ###Phylogenetic generalized least squares
-
-
-
-
 
 glsControl(maxIter = 100, msMaxIter = 100)
 
