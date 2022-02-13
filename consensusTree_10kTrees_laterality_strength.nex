@@ -1,0 +1,45 @@
+#NEXUS
+[created by the 10kTree Website - http://10kTrees.fas.harvard.edu]
+BEGIN TREES;
+translate
+1 Cercopithecus_diana,
+2 Cercopithecus_neglectus,
+3 Ateles_belzebuth,
+4 Ateles_fusciceps,
+5 Ateles_geoffroyi,
+6 Cebus_apella,
+7 Cebus_xanthosternos,
+8 Leontopithecus_chrysomelas,
+9 Leontopithecus_chrysopygus,
+10 Leontopithecus_rosalia,
+11 Saimiri_sciureus,
+12 Gorilla_gorilla_gorilla,
+13 Homo_sapiens,
+14 Hylobates_lar,
+15 Hylobates_moloch,
+16 Nomascus_gabriellae,
+17 Nomascus_leucogenys,
+18 Pan_paniscus,
+19 Pan_troglodytes_verus,
+20 Pongo_pygmaeus,
+21 Symphalangus_syndactylus,
+22 Pithecia_pithecia,
+23 Cercocebus_torquatus,
+24 Macaca_fascicularis,
+25 Macaca_nemestrina,
+26 Macaca_silenus,
+27 Macaca_sylvanus,
+28 Macaca_tonkeana,
+29 Mandrillus_sphinx,
+30 Papio_anubis,
+31 Papio_hamadryas,
+32 Theropithecus_gelada,
+33 Pygathrix_cinerea,
+34 Rhinopithecus_roxellana,
+35 Semnopithecus_entellus,
+36 Trachypithecus_auratus,
+37 Trachypithecus_francoisi
+38 Sapajus_flavius;
+tree consensus_38species = (((((1:5.588511,2:5.588511):9.286667,(((23:5.304298,29:5.304297):6.046166,(32:5.769164,(30:1.277228,31:1.277228):4.491935):5.581300):1.502062,(((28:4.267135,(26:3.610353,25:3.610353):0.656782):2.610861,24:6.877995):1.782804,27:8.660800):4.191726):2.022653):6.535196,((33:10.474584,34:10.474584):2.310063,(35:11.461377,(36:5.252986,37:5.252987):6.208391):1.323270):8.625728):8.589626,((((15:3.528966,14:3.528966):3.069395,21:6.598362):0.749537,(16:0.944453,17:0.944454):6.403445):12.258047,((12:8.652233,(13:6.175880,(18:2.333553,19:2.333554):3.842326):2.476353):6.480222,20:15.132455):4.473491):10.394055):16.811821,(((3:2.029549,(4:1.493361,5:1.493361):0.536187):19.291752,((8:1.453990,(9:0.618371,10:0.618371):0.835619):18.638537,(((6:1.7,38:1.7):1.82919,7:3.529190):15.040715,11:18.569905):1.522623):1.228773):1.411478,22:22.732779):24.079043);
+END;<br />
+<b>Warning</b>:  session_write_close() expects exactly 0 parameters, 1 given in <b>/var/www/10ktrees.nunn-lab.org/sendTreesToUser.php</b> on line <b>98</b><br />
