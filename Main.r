@@ -10,9 +10,9 @@ library(modelsummary)
 source("Preprocessing.r")
 
 ############### 
-### ChiSquared tests / t-tests
+### ChiSquared Tests
 
-#Creating a table combining literature data with our own original dataset
+#Creating a combined table of literature Data and our own
 HIs<-sumtab$HI
 Clade<- sumtab$Clade
 TreeName<-sumtab$Treename
@@ -44,7 +44,7 @@ compiledData$Genus <- as.factor(compiledData$Genus)
 
 
 
-# Chisquared and t-tests on species level
+# Chisquared and t-tests
 newworld <-subset(compiledData, compiledData$Clade == "Platyrrhini")
 oldworld <-subset(compiledData, compiledData$Clade == "Cercopithecoidea")
 homi <-subset(compiledData, compiledData$Clade == "Hominoidea")
@@ -75,14 +75,14 @@ for (i in 1:length(levels(compiledData$TreeName))) {
   
   
   if (tempsub$Clade[1] == "Platyrrhini") {
-    res <- chisq.test(freq, p=c(0.159574, 0.420213,0.420213))
+    res <- chisq.test(freq, p=c(0.1590106, 0.4204947,0.4204947))
   }
   if (tempsub$Clade[1] == "Cercopithecoidea") {
     #res <- chisq.test(freq, p=c(0.2414634, 0.3792683,0.3792683))
-    res <- chisq.test(freq, p=c(0.219114, 0.390443,0.390443))
+    res <- chisq.test(freq, p=c(0.2172996, 0.3913502,0.3913502))
   }
   if (tempsub$Clade[1] == "Hominoidea") {
-    res <- chisq.test(freq, p=c(0.20041, 0.399795,0.399795))
+    res <- chisq.test(freq, p=c(0.2073172, 0.3963414,0.3963414))
   }
   
   pval <- append(pval, res$p.value)
@@ -101,7 +101,7 @@ for (i in 1:length(levels(compiledData$TreeName))) {
 
 }
 chiresults <- data.frame(names,pval, ttestpval, clade, HImean, HIabs)
-chiresults
+
 
 hist(pval)
 
@@ -113,7 +113,7 @@ ks.test(ttestpval,"punif",0,1)
 
 
 
-# Chisquared and t-tests on genus level
+#Chisquared tests on genus level
 pval <- vector()
 ttestpval <- vector()
 names <- vector()
@@ -138,14 +138,14 @@ for (i in 1:length(levels(compiledData$Genus))) {
   
   
   if (tempsub$Clade[1] == "Platyrrhini") {
-    res <- chisq.test(freq, p=c(0.159574, 0.420213,0.420213))
+    res <- chisq.test(freq, p=c(0.1590106, 0.4204947,0.4204947)) #(0.159574, 0.420213,0.420213)
   }
   if (tempsub$Clade[1] == "Cercopithecoidea") {
     #res <- chisq.test(freq, p=c(0.2414634, 0.3792683,0.3792683))
-    res <- chisq.test(freq, p=c(0.219114, 0.390443,0.390443))
+    res <- chisq.test(freq, p=c(0.2172996, 0.3913502,0.3913502))    #(0.219114, 0.390443,0.390443)
   }
   if (tempsub$Clade[1] == "Hominoidea") {
-    res <- chisq.test(freq, p=c(0.20041, 0.399795,0.399795))
+    res <- chisq.test(freq, p=c(0.2073172, 0.3963414,0.3963414))        #(0.20041, 0.399795,0.399795)
   }
   
   pval <- append(pval, res$p.value)
@@ -164,36 +164,41 @@ for (i in 1:length(levels(compiledData$Genus))) {
   
 }
 chiresults.genus <- data.frame(names,pval, ttestpval, clade, HImean, HIabs)
-chiresults.genus
+
 
 
 
 
 
 ############
-##Phylogenetic signal
-
-#Check phylogenetic signal of lateralization direction
+#Phylogenetic signal
 HIlist <- predictor.dir$HI
 names(HIlist) <- rownames(predictor.dir)
 phylosig(arbol.dir, HIlist, method = "lambda", test = TRUE)
 
 
-#Check phylogenetic signal of lateralization strength
 HIabslist <- predictor$HIabs
 names(HIabslist) <- rownames(predictor)
 
 phylosig(arbol, HIabslist, method = "lambda", test = TRUE)
 
+
+
+
+
 #################
 ###Phylogenetic generalized least squares
+
+
+
+
 
 glsControl(maxIter = 100, msMaxIter = 100)
 
 #############
 #Lateralization Strength
 
-model.full<-gls(HIabs~log(female.endocranial.volume)+Ecology+Habitual.tool.use.in.wild.populations, data=predictor,correlation=corPagel(0.936419,arbol, form=~Name.in.tree, fixed=TRUE), method ="ML")
+model.full<-gls(HIabs~log(female.endocranial.volume)+Ecology+Habitual.tool.use.in.wild.populations, data=predictor,correlation=corPagel(0.8654,arbol, form=~Name.in.tree, fixed=TRUE), method ="ML")
 
 
 dfirst<-dredge(model.full)
@@ -223,9 +228,9 @@ modelplot(ddir)
 
 
 ###### without Humans
-model.fulldir<-gls(HI~log(female.endocranial.volume)+Ecology+Habitual.tool.use.in.wild.populations, data=predictor.dir.nohumans, correlation=corPagel(0,arbol.dir.nohumans,  form=~Name.in.tree, fixed=TRUE), method ="ML")
+model.fulldirnh<-gls(HI~log(female.endocranial.volume)+Ecology+Habitual.tool.use.in.wild.populations, data=predictor.dir.nohumans, correlation=corPagel(0,arbol.dir.nohumans,  form=~Name.in.tree, fixed=TRUE), method ="ML")
 
-dfirst.dir<-dredge(model.fulldir)
+dfirst.dir<-dredge(model.fulldirnh)
 dsec.dir<-get.models(dfirst.dir, subset=TRUE)
 ddir.nohumans<-model.avg(dsec.dir, revised.var=TRUE)
 summary(ddir.nohumans)
@@ -242,6 +247,94 @@ tabalt$HIInsert <- (tabalt$HIInsert +1) /2
 firstmodel<-glmer(HIInsert~ Handed.in.with..+(1 |Individual), data=tabalt, family=binomial )#, na.action="na.omit")
 
 summary(firstmodel)
+
+
+
+##############################
+#############################
+###############################
+# Test normality:
+library(olsrr)
+library(car)
+shapiro.test(model.full$residuals)
+shapiro.test(model.fulldir$residuals)
+shapiro.test(model.fulldirnh$residuals)
+
+
+vif(model.full)
+vif(model.fulldir)
+vif(model.fulldirnh)
+
+
+
+
+#brms experimente
+library(brms)
+A <- ape::vcv.phylo(arbol) 
+sumalt<- subset(sumtab, is.na(sumtab$Sex)== FALSE)
+sumalt<- subset(sumalt, is.na(sumalt$Age)== FALSE)
+
+indimodel<-brm(HI~Sex+Age+ (1|gr(Treename, cov = A )), data=sumalt, data2 = list(A = A))
+summary(indimodel)
+#plot(indimodel)
+#pp_check(indimodel, type = "ecdf_overlay")
+
+
+
+indimodel.abs<-brm(AbsHI~Sex+Age+ (1|gr(Treename, cov = A )), data=sumalt, data2 = list(A = A))
+summary(indimodel.abs)
+#plot(indimodel.abs)
+#pp_check(indimodel.abs, type = "ecdf_overlay")
+
+
+
+
+
+sumplat<- subset(sumalt, sumalt$Clade == "Platyrrhini")
+
+indimodel.plat<-brm(HI~Sex+Age+ (1|gr(Treename, cov = A )), data=sumplat, data2 = list(A = A),iter = 10000)
+summary(indimodel.plat)
+#plot(indimodel.plat)
+#pp_check(indimodel.plat, type = "ecdf_overlay")
+
+
+
+indimodel.abs.plat<-brm(AbsHI~Sex+Age+ (1|gr(Treename, cov = A )), data=sumplat, data2 = list(A = A),iter = 5000)
+summary(indimodel.abs.plat)
+#plot(indimodel.abs.plat)
+#pp_check(indimodel.abs.plat, type = "ecdf_overlay")
+
+
+
+sumcer<- subset(sumalt, sumalt$Clade == "Cercopithecoidea")
+
+indimodel.cer<-brm(HI~Sex+Age+ (1|gr(Treename, cov = A )), data=sumcer, data2 = list(A = A))
+summary(indimodel.cer)
+#plot(indimodel.cer)
+#pp_check(indimodel.cer, type = "ecdf_overlay")
+
+
+
+indimodel.abs.cer<-brm(AbsHI~Sex+Age+ (1|gr(Treename, cov = A )), data=sumcer, data2 = list(A = A))
+summary(indimodel.abs.cer)
+#plot(indimodel.abs.cer)
+#pp_check(indimodel.abs.cer, type = "ecdf_overlay")
+
+
+
+sumhom<- subset(sumalt, sumalt$Clade == "Hominoidea")
+
+indimodel.hom<-brm(HI~Sex+Age+ (1|gr(Treename, cov = A )), data=sumhom, data2 = list(A = A))
+summary(indimodel.hom)
+#plot(indimodel.hom)
+#pp_check(indimodel.hom, type = "ecdf_overlay")
+
+
+
+indimodel.abs.hom<-brm(AbsHI~Sex+Age+ (1|gr(Treename, cov = A )), data=sumhom, data2 = list(A = A))
+summary(indimodel.abs.hom)
+#plot(indimodel.abs.hom)
+#pp_check(indimodel.abs.hom, type = "ecdf_overlay")
 
 
 

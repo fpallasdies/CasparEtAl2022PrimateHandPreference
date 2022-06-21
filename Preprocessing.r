@@ -1,12 +1,12 @@
 #write.csv(sumtab, "sumtab.csv", row.names = FALSE)
 sumtab <- read.csv("sumtab.csv", header = TRUE, sep = ',')
-litPopulation <- read.csv("LiteraturedataPopLevel.csv", header = TRUE, sep = '\t')
+#litPopulation <- read.csv("LiteraturedataPopLevel.csv", header = TRUE, sep = '\t')
 
-litPopulation$NameInTree <- NA
+#litPopulation$NameInTree <- NA
 
-for (i in 1:length(litPopulation$Species)){
-  litPopulation$NameInTree[i] <- paste(litPopulation$Genus[i], litPopulation$Species[i], sep="_")
-} 
+#for (i in 1:length(litPopulation$Species)){
+#  litPopulation$NameInTree[i] <- paste(litPopulation$Genus[i], litPopulation$Species[i], sep="_")
+#} 
 
 
 
