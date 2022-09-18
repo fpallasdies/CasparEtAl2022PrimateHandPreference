@@ -51,6 +51,21 @@ homi <-subset(compiledData, compiledData$Clade == "Hominoidea")
 homiWOSap <-subset(compiledData, compiledData$Clade == "Hominoidea" & compiledData$Genus != "Homo")
 
 
+summary(homiWOSap$characterization)
+#187          302          413 
+# ohne Homo
+#0.2073171
+
+summary(oldworld$characterization)
+#123           181           170 
+#0.259493
+
+
+summary(newworld$characterization)
+#45          129          109 
+#0.1731449
+
+
 pval <- vector()
 ttestpval <- vector()
 names <- vector()
@@ -75,11 +90,11 @@ for (i in 1:length(levels(compiledData$TreeName))) {
   
   
   if (tempsub$Clade[1] == "Platyrrhini") {
-    res <- chisq.test(freq, p=c(0.1590106, 0.4204947,0.4204947))
+    res <- chisq.test(freq, p=c(0.173145, 0.4134275,0.4134275))
   }
   if (tempsub$Clade[1] == "Cercopithecoidea") {
     #res <- chisq.test(freq, p=c(0.2414634, 0.3792683,0.3792683))
-    res <- chisq.test(freq, p=c(0.2172996, 0.3913502,0.3913502))
+    res <- chisq.test(freq, p=c(0.259493, 0.3702535,0.3702535))
   }
   if (tempsub$Clade[1] == "Hominoidea") {
     res <- chisq.test(freq, p=c(0.2073172, 0.3963414,0.3963414))
@@ -138,11 +153,11 @@ for (i in 1:length(levels(compiledData$Genus))) {
   
   
   if (tempsub$Clade[1] == "Platyrrhini") {
-    res <- chisq.test(freq, p=c(0.1590106, 0.4204947,0.4204947)) #(0.159574, 0.420213,0.420213)
+    res <- chisq.test(freq, p=c(0.173145, 0.4134275,0.4134275)) #(0.159574, 0.420213,0.420213)
   }
   if (tempsub$Clade[1] == "Cercopithecoidea") {
     #res <- chisq.test(freq, p=c(0.2414634, 0.3792683,0.3792683))
-    res <- chisq.test(freq, p=c(0.2172996, 0.3913502,0.3913502))    #(0.219114, 0.390443,0.390443)
+    res <- chisq.test(freq, p=c(0.259493, 0.3702535,0.3702535))    #(0.219114, 0.390443,0.390443)
   }
   if (tempsub$Clade[1] == "Hominoidea") {
     res <- chisq.test(freq, p=c(0.2073172, 0.3963414,0.3963414))        #(0.20041, 0.399795,0.399795)
@@ -166,6 +181,7 @@ for (i in 1:length(levels(compiledData$Genus))) {
 chiresults.genus <- data.frame(names,pval, ttestpval, clade, HImean, HIabs)
 
 
+######################
 
 
 
@@ -197,8 +213,8 @@ glsControl(maxIter = 100, msMaxIter = 100)
 
 #############
 #Lateralization Strength
-
-model.full<-gls(HIabs~log(female.endocranial.volume)+Ecology+Habitual.tool.use.in.wild.populations, data=predictor,correlation=corPagel(0.8654,arbol, form=~Name.in.tree, fixed=TRUE), method ="ML")
+#0.8654
+model.full<-gls(HIabs~log(female.endocranial.volume)+Ecology+Habitual.tool.use.in.wild.populations, data=predictor,correlation=corPagel(0.885359,arbol, form=~Name.in.tree, fixed=TRUE), method ="ML")
 
 
 dfirst<-dredge(model.full)
@@ -292,7 +308,7 @@ summary(indimodel.abs)
 
 sumplat<- subset(sumalt, sumalt$Clade == "Platyrrhini")
 
-indimodel.plat<-brm(HI~Sex+Age+ (1|gr(Treename, cov = A )), data=sumplat, data2 = list(A = A),iter = 10000)
+indimodel.plat<-brm(HI~Sex+Age+ (1|gr(Treename, cov = A )), data=sumplat, data2 = list(A = A),iter = 12000)
 summary(indimodel.plat)
 #plot(indimodel.plat)
 #pp_check(indimodel.plat, type = "ecdf_overlay")
@@ -323,15 +339,16 @@ summary(indimodel.abs.cer)
 
 
 sumhom<- subset(sumalt, sumalt$Clade == "Hominoidea")
+sumhom<- subset(sumhom, sumhom$Species != "sapiens" & sumhom$Species != "troglodytes")
 
-indimodel.hom<-brm(HI~Sex+Age+ (1|gr(Treename, cov = A )), data=sumhom, data2 = list(A = A))
+indimodel.hom<-brm(HI~Sex+Age+ (1|gr(Treename, cov = A )), data=sumhom, data2 = list(A = A),iter = 7000)
 summary(indimodel.hom)
 #plot(indimodel.hom)
 #pp_check(indimodel.hom, type = "ecdf_overlay")
 
 
 
-indimodel.abs.hom<-brm(AbsHI~Sex+Age+ (1|gr(Treename, cov = A )), data=sumhom, data2 = list(A = A))
+indimodel.abs.hom<-brm(AbsHI~Sex+Age+ (1|gr(Treename, cov = A )), data=sumhom, data2 = list(A = A),iter = 7000)
 summary(indimodel.abs.hom)
 #plot(indimodel.abs.hom)
 #pp_check(indimodel.abs.hom, type = "ecdf_overlay")

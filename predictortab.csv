@@ -6,7 +6,7 @@
 "Callitrichidae","Leontopithecus_chrysopygus","Arboreal",13.04,"No",0.0388,0.349866666666667,"Platyrrhini","Leontopithecus_chrysopygus"
 "Callitrichidae","Leontopithecus_rosalia","Arboreal",13.04,"No",0.0218928571428571,0.50175,"Platyrrhini","Leontopithecus_rosalia"
 "Cebidae","Sapajus_flavius","Arboreal",63.653,"Yes",-0.130250617151219,0.769168625577883,"Platyrrhini","Sapajus_flavius"
-"Cebidae","Sapajus_apella","Arboreal",64.136,"Yes",0.015549076173674,0.650500173075575,"Platyrrhini","Cebus_apella"
+"Cebidae","Sapajus_apella","Arboreal",64.136,"Yes",-0.02845092,0.6865002,"Platyrrhini","Cebus_apella"
 "Cebidae","Sapajus_xanthosternos","Arboreal",64.005,"Yes",0.0888745699089445,0.676914750245978,"Platyrrhini","Cebus_xanthosternos"
 "Cebidae","Saimiri_sciureus","Arboreal",23.523,"No",-0.118888888888889,0.757222222222222,"Platyrrhini","Saimiri_sciureus"
 "Cercopithecidae","Cercocebus_torquatus","Terrestrial",93.482,"No",-0.0290645161290323,0.664935483870968,"Cercopithecoidea","Cercocebus_torquatus"

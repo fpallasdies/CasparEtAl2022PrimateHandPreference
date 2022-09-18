@@ -1,5 +1,5 @@
 #write.csv(sumtab, "sumtab.csv", row.names = FALSE)
-sumtab <- read.csv("sumtab.csv", header = TRUE, sep = ',')
+sumtab <- read.csv("sumtab.csv", header = TRUE, sep = ';', stringsAsFactors=TRUE)
 #litPopulation <- read.csv("LiteraturedataPopLevel.csv", header = TRUE, sep = '\t')
 
 #litPopulation$NameInTree <- NA
