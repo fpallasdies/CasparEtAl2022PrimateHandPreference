@@ -53,7 +53,7 @@ homiWOSap <-subset(compiledData, compiledData$Clade == "Hominoidea" & compiledDa
 
 summary(homiWOSap$characterization)
 #187          302          413 
-# ohne Homo
+# without humans
 #0.2073171
 
 summary(oldworld$characterization)
@@ -212,8 +212,7 @@ phylosig(arbol, HIabslist, method = "lambda", test = TRUE)
 glsControl(maxIter = 100, msMaxIter = 100)
 
 #############
-#Lateralization Strength
-#0.8654
+#Lateralization strength
 model.full<-gls(HIabs~log(female.endocranial.volume)+Ecology+Habitual.tool.use.in.wild.populations, data=predictor,correlation=corPagel(0.885359,arbol, form=~Name.in.tree, fixed=TRUE), method ="ML")
 
 
@@ -243,7 +242,7 @@ modelplot(ddir)
 
 
 
-###### without Humans
+###### without humans
 model.fulldirnh<-gls(HI~log(female.endocranial.volume)+Ecology+Habitual.tool.use.in.wild.populations, data=predictor.dir.nohumans, correlation=corPagel(0,arbol.dir.nohumans,  form=~Name.in.tree, fixed=TRUE), method ="ML")
 
 dfirst.dir<-dredge(model.fulldirnh)
@@ -264,7 +263,14 @@ firstmodel<-glmer(HIInsert~ Handed.in.with..+(1 |Individual), data=tabalt, famil
 
 summary(firstmodel)
 
+##########
+#Ancestral character estimates
 
+#Direction
+fastAnc(arbol.dir, HIlist, vars= TRUE, CI= TRUE)
+
+#Strength
+fastAnc(arbol, HIabslist, vars= TRUE, CI= TRUE)
 
 ##############################
 #############################
@@ -284,7 +290,7 @@ vif(model.fulldirnh)
 
 
 
-#brms experimente
+#brms modelling of effects of sex and age cohorts on individual-level laterality
 library(brms)
 A <- ape::vcv.phylo(arbol) 
 sumalt<- subset(sumtab, is.na(sumtab$Sex)== FALSE)
